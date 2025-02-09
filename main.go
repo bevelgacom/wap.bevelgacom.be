@@ -76,12 +76,5 @@ func serveWAP(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, "")
 	}
 
-	// Go is incorrect when judging Java files
-	// this overrides that
-	contentType := "binary/octet-stream"
-	if strings.HasSuffix(file, ".jar") {
-		contentType = "application/java-archive"
-	}
-
-	return c.Stream(http.StatusOK, contentType, f)
+	return c.Stream(http.StatusOK, "text/vnd.wap.wml", f)
 }
