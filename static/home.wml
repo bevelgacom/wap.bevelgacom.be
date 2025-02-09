@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">
+
+<wml>
+<card id="card1" title="Bevelgacom WAP">
+<p>
+Welcome to Bevelgacom!
+</p>
+
+<p>
+<a href="wap/nl.wml">Nederlands</a>
+</p>
+<p>
+<a href="wap/fr.wml">Français</a>
+</p>
+<p>
+<a href="wap/en.wml">English</a>
+</p>
+
+</card>
+</wml>

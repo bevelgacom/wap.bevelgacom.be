@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">
+
+<wml>
+<card id="card1" title="Bevelgacom WAP">
+<p>
+Welcome to Bevelgacom!
+</p>
+
+<p>
+Welcome to the Bevelgacom WAP portal!
+</p>
+
+<p>
+<a href="/nws/list">Read VRT NWS</a>
+</p>
+
+<p>
+<a href="/nws/list?max=10">Read VRT NWS (10 items, for older phones)</a>
+</p>
+
+</card>
+</wml>

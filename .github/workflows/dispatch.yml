@@ -1,0 +1,39 @@
+name: Docker Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install buildx
+      run: |
+          sudo apt-get update
+          sudo apt-get install -y binfmt-support qemu-user-static jq
+          mkdir -p ~/.docker/cli-plugins
+          BUILDX_URL=$(curl https://api.github.com/repos/docker/buildx/releases/latest | jq -r .assets[].browser_download_url | grep amd64 | grep linux)
+          wget $BUILDX_URL -O ~/.docker/cli-plugins/docker-buildx
+          chmod +x ~/.docker/cli-plugins/docker-buildx
+          docker buildx create --name xbuilder
+          docker buildx use xbuilder
+          docker buildx inspect --bootstrap
+    - name: Log in to GitHub Container Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+    - name: Build and push the Docker image
+      run: docker buildx build -t ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA --push --platform "linux/amd64,linux/arm64,linux/arm" .
+
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    steps:
+    - name: Log in to GitHub Container Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+    - name: Pull and run the Docker image
+      run: |
+        docker kill wap_container || true
+        docker rm wap_container || true
+        docker pull ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA
+        docker run -d --name wap_container -p 8080:80 ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA
