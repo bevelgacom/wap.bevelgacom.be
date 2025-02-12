@@ -42,4 +42,4 @@ jobs:
         docker kill wap_container || true
         docker rm wap_container || true
         docker pull ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA
-        docker run -d --name wap_container -p 8080:80 ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA
+        docker run -d --restart=always --name wap_container -p 8080:80 ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA

@@ -4,19 +4,15 @@
 <wml>
 <card id="card1" title="Bevelgacom WAP">
 <p>
-Welcome to Bevelgacom!
+Bienvenue chez Bevelgacom!
 </p>
 
 <p>
-Welcome to the Bevelgacom WAP portal!
+Bienvenue sur le portail WAP de Bevelgacom !
 </p>
 
 <p>
-<a href="/nws/list">Read VRT NWS</a>
-</p>
-
-<p>
-<a href="/nws/list?max=10">Read VRT NWS (10 items, for older phones)</a>
+<a href="http://wap.blamba.bevelgacom.be">Sonneries/Images/Games</a>
 </p>
 
 </card>
