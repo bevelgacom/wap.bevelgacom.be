@@ -251,8 +251,8 @@ func serveNavigatorQuery(c echo.Context) error {
 		}
 
 		resp, err := nav.GetJourneys(context.Background(), &dbnav.GetJourneysParams{
-			From:      &pageData.FromValue,
-			To:        &pageData.ToValue,
+			From:      &pageData.From.Id,
+			To:        &pageData.To.Id,
 			Departure: &date,
 		})
 		if err != nil {
@@ -260,8 +260,12 @@ func serveNavigatorQuery(c echo.Context) error {
 			return c.String(http.StatusInternalServerError, "Internal server error")
 		}
 		data, err := dbnav.ParseGetJourneysResponse(resp)
-		if err != nil || data.JSON2XX == nil {
+		if err != nil {
 			log.Println(err)
+			return c.String(http.StatusInternalServerError, "Internal server error")
+		}
+		if data.JSON2XX == nil {
+			log.Println(string(data.Body))
 			return c.String(http.StatusInternalServerError, "Internal server error")
 		}
 
