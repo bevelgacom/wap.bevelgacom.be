@@ -128,21 +128,26 @@ func seachStation(q string) []Station {
 		if strings.EqualFold(q, s.Name) {
 			return []Station{s}
 		}
-		if score := fuzzy.RankMatch(q, s.Name); score > 0 {
+		if score := fuzzy.RankMatch(q, s.Name); score > 0 && score < 10 {
 			result = append(result, s)
 			match[s.Id] = score
 		}
 	}
-
-	// sort on weight
 	slices.SortFunc(result, func(a, b Station) int {
-		as := a.Weight + float64(match[a.Id]*20)
-		bs := b.Weight + float64(match[b.Id]*20)
+		return int(match[a.Id] - match[b.Id])
+	})
+	if len(result) > 10 {
+		result = result[:10]
+	}
+	// sort on weight and match score
+	slices.SortFunc(result, func(a, b Station) int {
+		as := a.Weight - float64(match[a.Id]*30)
+		bs := b.Weight - float64(match[b.Id]*30)
 		return int(bs - as)
 	})
 
-	if len(result) > 10 {
-		result = result[:10]
+	for _, s := range result {
+		log.Println(s.Name, s.Weight, match[s.Id])
 	}
 
 	return result
