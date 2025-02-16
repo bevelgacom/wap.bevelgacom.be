@@ -5,7 +5,9 @@
 <p>
 Dep.&nbsp;&nbsp;Arr.&nbsp;&nbsp;Ch.
 </p>
+<p>
 <img src="./line.wbmp" alt="----------"/>
+</p>
 
 {{- range .Connections }}
 <p>
@@ -29,7 +31,8 @@ Dep.&nbsp;&nbsp;Arr.&nbsp;&nbsp;Ch.
 
 <p>
 <img src="./pfeil.wbmp" alt="----->"/>
-&nbsp;{{ .To }}&nbsp;{{ .ArrivalTime }}&nbsp;pl. {{ .ArrivalPlatform }}</p>
+&nbsp;{{ .To }}&nbsp;{{ .ArrivalTime }}&nbsp;pl. {{ .ArrivalPlatform }}
+</p>
 {{- end}}
 
 <do type="accept" label="&lt; Back">

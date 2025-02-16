@@ -9,6 +9,9 @@
 <card id="card1" title="Query page">
 <p>
 <img src="./hafdb.wbmp" alt="DB Timetable"/>
+</p>
+
+<p>
 From:
 {{- if not .From }}
 <input name="start" title="From:" maxlength="20" value="{{.FromValue}}"/>
@@ -23,7 +26,9 @@ From:
 {{ if .From }}
 {{ .From.Name }}
 {{- end }}
+</p>
 
+<p>
 To:
 {{- if not .To }}
 <input name="ziel" title="To:" maxlength="20" value="{{.ToValue}}"/>
@@ -38,10 +43,15 @@ To:
 {{ if .To }}
 {{ .To.Name }}
 {{- end }}
+</p>
+<p>
 Date [DDMMYY]:
 <input format="*N" name="datum" title="Date (DDMMYY)" maxlength="6" value="{{.Date}}"/>
+</p>
+<p>
 Time [HHMM]:
 <input format="*N" name="zeit" title="Time (HHMM)" maxlength="4" value="{{.Time}}"/>
+</p>
 <do type="accept" label="&gt; Search">
 <go href="/navigator/query?s=$(start)&amp;z=$(ziel)&amp;d=$(datum)&amp;t=$(zeit)&amp;"/>
 </do>
