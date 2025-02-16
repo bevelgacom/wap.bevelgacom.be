@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">
+<wml>
+<template>
+<do type="prev" label="Back">
+<prev/>
+</do>
+</template>
+<card id="card1" title="Query page">
+<p>
+<img src="./hafdb.wbmp" alt="DB Timetable"/>
+From:
+{{- if not .From }}
+<input name="start" title="From:" maxlength="20"/>
+{{- elif .FromList }}
+<select name="start" ivalue="0">
+{{- range .FromList }}
+<option value="{{.Id}}">{{.Name}}</option>
+{{- end }}
+</select>
+{{- else }}
+{{ .From.Name }}
+{{- end }}
+To:
+{{- if not .To }}
+<input name="ziel" title="To:" maxlength="20"/>
+{{- elif .ToList }}
+<select name="ziel" ivalue="0">
+{{- range .ToList }}
+<option value="{{.Id}}">{{.Name}}</option>
+{{- end }}
+</select>
+{{- else }}
+{{ .To.Name }}
+{{- end }}
+
+Via 1:
+<input name="via1" title="To:" maxlength="20"/>
+Via 2:
+<input name="via2" title="To:" maxlength="20"/>
+Date [DDMMYY]:
+<input format="*N" name="datum" title="Date (DDMMYY)" maxlength="6" value="070301"/>
+Time [HHMM]:
+<input format="*N" name="zeit" title="Time (HHMM)" maxlength="4" value="1400"/>
+<select name="wapProductsFilter" multiple="true" ivalue="0">
+<option value="1111101000">nur Bahn</option>
+<option value="1111111111">alle</option>
+<option value="1000000000">ICE</option>
+<option value="0100000000">IC/EC</option>
+<option value="0010000000">IR/D</option>
+<option value="0001000000">RE/RB</option>
+<option value="0000100000">S-Bahn</option>
+<option value="0000010000">Bus</option>
+<option value="0000001000">Schiff</option>
+<option value="0000000100">U-Bahn</option>
+<option value="0000000010">STR</option>
+<option value="0000000001">AST</option>
+</select>
+<do type="accept" label="&gt; Search">
+<go href="/navigator/query?s=$(start)&amp;z=$(ziel)&amp;d=$(datum)&amp;t=$(zeit)&amp;via1=$(via2)&amp;via2=$(via2)&amp;p=$(wapProductsFilter)"/>
+</do>
+<do type="accept" label="&gt; Cancel">
+<go href="/navigator/"/>
+</do>
+<do type="accept" label="&gt; Basic">
+<go href="/navigator/query?s=$(start)&amp;z=$(ziel)&amp;d=$(datum)&amp;t=$(zeit)"/>
+</do>
+</card>
+</wml>

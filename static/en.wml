@@ -12,7 +12,7 @@ Welcome to the Bevelgacom WAP portal!
 </p>
 
 <p>
-<a href="/nws/list">Read VRT NWS</a>
+<a href="/nws/list">Read VRT NWS (Dutch)</a>
 </p>
 
 <p>
@@ -21,6 +21,10 @@ Welcome to the Bevelgacom WAP portal!
 
 <p>
 <a href="http://wap.blamba.bevelgacom.be">Ringtones/Images/Games</a>
+</p>
+
+<p>
+<a href="/navigator/">DB Navigator</a>
 </p>
 
 </card>

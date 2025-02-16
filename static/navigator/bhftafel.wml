@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">
+<wml>
+<head>
+<meta name="character-set=iso-8859-1" content="charset"/>
+<meta forua="true" http-equiv="Cache-Control" content="max-age=0"/>
+</head>
+<template> <do type="prev" label="Zur&#252;ck"> <prev/> </do> </template>
+<card title="Ankunft/Abfahrt">
+<p>
+Bhf./Haltest.:<br/>
+<input name="initialWapInput" maxlength="20" />
+<select name="wapBoardType">
+<option value="dep">Abfahrt</option>
+<option value="arr">Ankunft</option>
+</select>
+<select name="wapProductsFilter" ivalue="0">
+<option value="1111101000">nur Bahn</option>
+<option value="1111111111">alle</option>
+<option value="1000000000">ICE</option>
+<option value="0100000000">IC/EC</option>
+<option value="0010000000">IR/D</option>
+<option value="0001000000">RE/RB</option>
+<option value="0000100000">S-Bahn</option>
+<option value="0000010000">Bus</option>
+<option value="0000001000">Schiff</option>
+<option value="0000000100">U-Bahn</option>
+<option value="0000000010">STR</option>
+<option value="0000000001">AST</option>
+</select>
+<br/>
+<anchor><go href="#advanced"/>Erweitert</anchor>
+<anchor><go href="http://wap.bahn.de/bin/mobil/bhftafel.exe/dmw?si=$(initialWapInput)&amp;ti=actual&amp;sd=$(selectDate)&amp;bt=$(wapBoardType)&amp;p=$(wapProductsFilter)&amp;max=10&amp;start=yes"/>Suchen</anchor>
+<anchor><go href="http://wap.bahn.de/bin/mobil/detect.exe/dmw?"/>Neue Anfrage</anchor></p>
+</card>
+<card id="advanced" title="Ankunft/Abfahrt">
+<p>
+Bhf./Haltest.:<br/>
+<input name="initialWapInput" maxlength="20" />
+<select name="wapBoardType">
+<option value="dep">Abfahrt</option>
+<option value="arr">Ankunft</option>
+</select>
+Fahrten
+<select name="maxJourneys">
+<option value="10">10</option>
+<option value="20">20</option>
+<option value="30">30</option>
+<option value="40">40</option>
+<option value="50">50</option>
+</select>
+<br/>
+Z&#252;ge/Linien:<br/>
+<input type="text" name="REQTrain_name" value="" size="8" maxlength="8"/><br/>
+<select name="wapProductsFilter" ivalue="0">
+<option value="1111101000">nur Bahn</option>
+<option value="1111111111">alle</option>
+<option value="1000000000">ICE</option>
+<option value="0100000000">IC/EC</option>
+<option value="0010000000">IR/D</option>
+<option value="0001000000">RE/RB</option>
+<option value="0000100000">S-Bahn</option>
+<option value="0000010000">Bus</option>
+<option value="0000001000">Schiff</option>
+<option value="0000000100">U-Bahn</option>
+<option value="0000000010">STR</option>
+<option value="0000000001">AST</option>
+</select>
+<br/>
+<anchor><go href="http://wap.bahn.de/bin/mobil/bhftafel.exe/dmw?si=$(initialWapInput)&amp;ti=actual&amp;bt=$(wapBoardType)&amp;p=$(wapProductsFilter)&amp;max=$(maxJourneys)&amp;tn=$(REQTrain_name)&amp;tns=1&amp;start=yes"/>Suchen</anchor>
+<anchor><go href="http://wap.bahn.de/bin/mobil/bhftafel.exe/dmw?si=$(initialWapInput)&amp;ti=actual&amp;bt=$(wapBoardType)&amp;p=$(wapProductsFilter)&amp;max=$(maxJourneys)&amp;tn=$(REQTrain_name)&amp;tns=1&amp;lj=1&amp;start=yes"/>nur Fahrplanabweichungen</anchor>
+<anchor><go href="http://wap.bahn.de/bin/mobil/detect.exe/dmw?"/>Neue Anfrage</anchor></p>
+</card>
+</wml>

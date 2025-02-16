@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">
+<wml>
+<template>
+<do type="prev" label="Back">
+<prev/>
+</do>
+</template>
+<card id="card1" title="HAFAS">
+<p align="center">
+<img src="./hafdb.wbmp" alt="DB Fahrplan"/>
+</p>
+<p align="center">
+<anchor>
+<go href="/navigator/query"/>
+Plan your journey
+</anchor>
+<br/>
+<anchor>
+<go href="#info"/>
+Information
+</anchor>
+</p>
+</card>
+<card id="info" title="Information" newcontext="true">
+<p>
+Willkommen bei der Test&#173;version von HAFAS-Mobil, der Fahr&#173;plan&#173;aus&#173;kunft fuer WAP-Browser.
+<br/>&#160;
+</p>
+<p>
+An&#173;stel&#173;le von Bahn&#173;hofs- und Hal&#173;te&#173;stel&#173;len&#173;na&#173;men koen&#173;nen Sie auch die KFZ-Kenn&#173;zei&#173;chen vie&#173;ler deutscher Staedte ein&#173;ge&#173;ben.
+</p>
+</card>
+</wml>

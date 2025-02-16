@@ -14,11 +14,13 @@ func main() {
 	e := echo.New()
 	e.GET("/", serveHome)
 	e.GET("/wap/*", serveWAP)
+	e.GET("/navigator/*", serveNavigator)
+	e.GET("/navigator/query", serveNavigatorQuery)
 	e.GET("/dl/*", serveDL)
 	e.GET("/nws/list", serveNewsList)
 	e.GET("/nws/item", serveNewsItem)
 
-	e.Start(":80")
+	e.Start(":8080")
 }
 
 func serveHome(c echo.Context) error {

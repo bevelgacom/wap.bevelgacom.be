@@ -8,7 +8,7 @@ RUN go build -o server ./
 
 FROM alpine:edge
 
-RUN apk add --no-cache ca-certificates
+RUN apk add --no-cache ca-certificates tzdata
 
 RUN mkdir /opt/wap.bevelgacom.be
 WORKDIR /opt/wap.bevelgacom.be

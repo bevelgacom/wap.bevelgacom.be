@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">
+<wml>
+<template>
+<do type="prev" label="Back">
+<prev/>
+</do>
+</template>
+<card id="card1" title="Query page">
+<p>
+<img src="./hafdb.wbmp" alt="DB Timetable"/>
+From:
+{{- if not .From }}
+<input name="start" title="From:" maxlength="20" value="{{.FromValue}}"/>
+{{- end }}
+{{- if .FromList }}
+<select name="start" ivalue="0">
+{{- range .FromList }}
+<option value="{{.Id}}">{{.Name}}</option>
+{{- end }}
+</select>
+{{- end }}
+{{ if .From }}
+{{ .From.Name }}
+{{- end }}
+
+To:
+{{- if not .To }}
+<input name="ziel" title="To:" maxlength="20" value="{{.ToValue}}"/>
+{{- end }}
+{{- if .ToList }}
+<select name="ziel" ivalue="0">
+{{- range .ToList }}
+<option value="{{.Id}}">{{.Name}}</option>
+{{- end }}
+</select>
+{{- end }}
+{{ if .To }}
+{{ .To.Name }}
+{{- end }}
+Date [DDMMYY]:
+<input format="*N" name="datum" title="Date (DDMMYY)" maxlength="6" value="{{.Date}}"/>
+Time [HHMM]:
+<input format="*N" name="zeit" title="Time (HHMM)" maxlength="4" value="{{.Time}}"/>
+<do type="accept" label="&gt; Search">
+<go href="/navigator/query?s=$(start)&amp;z=$(ziel)&amp;d=$(datum)&amp;t=$(zeit)&amp;"/>
+</do>
+<do type="accept" label="&gt; Cancel">
+<go href="/navigator/"/>
+</do>
+<do type="accept" label="&lt; Advanced">
+<go href="/navigator/query?advanced=true&amp;zs=$(start)&amp;z=$(ziel)&amp;d=$(datum)&amp;t=$(zeit)"/>
+</do>
+</card>
+</wml>

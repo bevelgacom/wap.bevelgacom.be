@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">
+<wml>
+<card id="list" title="Connections">
+<p>
+Dep.&nbsp;&nbsp;Arr.&nbsp;&nbsp;Ch.
+</p>
+<img src="./line.wbmp" alt="----------"/>
+
+{{- range .Connections }}
+<p>
+<anchor>
+<go href="#conn{{.Id}}"/>
+{{.DepartureTime}}&nbsp;{{.ArrivalTime}}&nbsp;{{.Changes}}
+</anchor>
+</p>
+{{- end }}
+
+<do type="accept" label="&lt; Back">
+<go href="/navigator/query?advanced=true&amp;zs=$(start)&amp;z=$(ziel)&amp;d=$(datum)&amp;t=$(zeit)"/>
+</do>
+</card>
+
+{{- range .Connections}}
+<card id="conn{{ .Id }}" title="Connection {{ .Id }}">
+<p>From {{ .From }} to {{ .To }}</p>
+{{- range .Legs }}
+<p>{{ .DepartureTime }}&nbsp;{{ .From }}&nbsp;pl. {{ .DeparturePlatform }}&nbsp;-&nbsp;{{.Line}}</p>
+
+<p>
+<img src="./pfeil.wbmp" alt="----->"/>
+&nbsp;{{ .To }}&nbsp;{{ .ArrivalTime }}&nbsp;pl. {{ .ArrivalPlatform }}</p>
+{{- end}}
+
+<do type="accept" label="&lt; Back">
+<go href="#list"/>
+</do>
+</card>
+{{- end}}
+</wml>
