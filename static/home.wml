@@ -3,10 +3,10 @@
 
 <wml>
 <card id="card1" title="Bevelgacom WAP">
-<p>
 <p align="center">
 <img src="/wap/bevelgacom.wbmp" alt="Bevelgacom"/>
 </p>
+<p>
 Welkom bij Bevelgacom!<br />
 Bienvenue chez Bevelgacom!<br />
 Welcome to Bevelgacom!<br />
@@ -16,7 +16,7 @@ Welcome to Bevelgacom!<br />
 <a href="wap/nl.wml">Nederlands</a>
 </p>
 <p>
-<a href="wap/fr.wml">Fran&ccedil;ais</a>
+<a href="wap/fr.wml">Francais</a>
 </p>
 <p>
 <a href="wap/en.wml">English</a>
