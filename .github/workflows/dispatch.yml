@@ -32,7 +32,7 @@ jobs:
     - name: Log in to GitHub Container Registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
     - name: Build and push the Docker image
-      run: docker buildx build --provenance false--provenance false--provenance false -t ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA-${{ matrix.arch }} --push --platform "linux/${{ matrix.arch }}" .
+      run: docker buildx build --provenance false -t ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA-${{ matrix.arch }} --push --platform "linux/${{ matrix.arch }}" .
 
   build-merge:
     runs-on: ubuntu-latest
