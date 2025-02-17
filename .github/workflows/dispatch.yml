@@ -52,7 +52,6 @@ jobs:
         docker manifest create ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA --amend ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA-amd64 --amend ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA-arm64
         docker manifest annotate ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA-amd64 --os linux --arch amd64
         docker manifest annotate ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA-arm64 --os linux --arch arm64
-        docker manifest inspect ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA
         docker manifest push ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA
     
   deploy:
