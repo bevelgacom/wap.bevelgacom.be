@@ -22,7 +22,9 @@ Content:
 
 <p>
 Size: 
-<select name="size" ivalue="60">
+<select name="size" ivalue="40">
+<option value="40">40px (Nokia 7110)</option>
+<option value="50">50px</option>
 <option value="60">60px (Nokia 7110)</option>
 <option value="70">70px</option>
 <option value="80">80px</option>
