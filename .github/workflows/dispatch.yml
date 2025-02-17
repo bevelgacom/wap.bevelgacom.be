@@ -6,7 +6,11 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm]
+        arch: [amd64, arm64]
     permissions:
       contents: read
       packages: write
@@ -15,9 +19,8 @@ jobs:
     - name: Install buildx
       run: |
           sudo apt-get update
-          sudo apt-get install -y binfmt-support qemu-user-static jq
           mkdir -p ~/.docker/cli-plugins
-          BUILDX_URL=$(curl https://api.github.com/repos/docker/buildx/releases/latest | jq -r .assets[].browser_download_url | grep amd64 | grep linux)
+          BUILDX_URL=$(curl https://api.github.com/repos/docker/buildx/releases/latest | jq -r .assets[].browser_download_url | grep ${{ matrix.arch }} | grep linux)
           wget $BUILDX_URL -O ~/.docker/cli-plugins/docker-buildx
           chmod +x ~/.docker/cli-plugins/docker-buildx
           docker buildx create --name xbuilder
@@ -26,7 +29,7 @@ jobs:
     - name: Log in to GitHub Container Registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
     - name: Build and push the Docker image
-      run: docker buildx build -t ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA --push --platform "linux/amd64,linux/arm64" .
+      run: docker buildx build -t ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA --push --platform "linux/${{ matrix.arch }}"
 
   deploy:
     runs-on: self-hosted
