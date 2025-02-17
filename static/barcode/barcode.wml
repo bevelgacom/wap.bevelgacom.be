@@ -11,5 +11,8 @@
 <p>
     <img src="/barcode/image.wbmp?t={{ .Type }}&amp;c={{ .Content }}&amp;s={{ .Size }}" alt="barcode"/>
 </p>
+<do type="accept" label="&lt; Back">
+<go href="/barcode/">
+</do>
 </card>
 </wml>
