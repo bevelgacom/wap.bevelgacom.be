@@ -12,7 +12,7 @@ RUN go build -o server ./
 
 FROM alpine:edge
 
-RUN apk add --no-cache ca-certificates tzdata
+RUN apk add --no-cache ca-certificates tzdata imagemagick-dev imagemagick
 
 RUN mkdir /opt/wap.bevelgacom.be
 WORKDIR /opt/wap.bevelgacom.be
