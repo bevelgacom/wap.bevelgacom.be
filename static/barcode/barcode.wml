@@ -4,7 +4,7 @@
 <wml>
 <card id="card1" title="barcode">
 <p>
-    <img src="/barcode/image.wbmp?type={{ .Type }}&content={{ .Content }}" alt="barcode"/>
+    <img src="/barcode/image.wbmp?type={{ .Type }}&amp;content={{ .Content }}" alt="barcode"/>
 </p>
 </card>
 </wml>
