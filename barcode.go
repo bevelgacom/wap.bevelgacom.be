@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strconv"
 	"strings"
 	"text/template"
 
@@ -16,6 +17,7 @@ import (
 type barcodeContent struct {
 	Type    string
 	Content string
+	Size    string
 }
 
 func serveBarcode(c echo.Context) error {
@@ -45,10 +47,11 @@ func serveBarcode(c echo.Context) error {
 
 func serveBarcodePage(c echo.Context) error {
 	tmpl := template.Must(template.ParseFiles("./static/barcode/barcode.wml"))
-	content := base64.StdEncoding.EncodeToString([]byte(c.QueryParam("content")))
+	content := base64.StdEncoding.EncodeToString([]byte(c.QueryParam("c")))
 
 	pageContent := barcodeContent{
-		Type:    c.QueryParam("type"),
+		Type:    c.QueryParam("t"),
+		Size:    c.QueryParam("s"),
 		Content: content,
 	}
 
@@ -58,17 +61,26 @@ func serveBarcodePage(c echo.Context) error {
 }
 
 func serveBarcodeImage(c echo.Context) error {
-	content, err := base64.StdEncoding.DecodeString(c.QueryParam("content"))
+	content, err := base64.StdEncoding.DecodeString(c.QueryParam("c"))
 	if err != nil {
 		return c.String(http.StatusBadRequest, "Invalid content")
 	}
 
-	if c.QueryParam("type") == "qr" {
-		return c.Blob(http.StatusOK, "image/vnd.wap.wbmp", barcode.CreateQR(string(content)))
-	} else if c.QueryParam("type") == "aztec" {
-		return c.Blob(http.StatusOK, "image/vnd.wap.wbmp", barcode.CreateAztec(string(content)))
-	} else if c.QueryParam("type") == "code128" {
-		return c.Blob(http.StatusOK, "image/vnd.wap.wbmp", barcode.CreateCode128(string(content)))
+	sizeStr := c.QueryParam("s")
+	if sizeStr == "" {
+		sizeStr = "60"
+	}
+	size, err := strconv.ParseInt(sizeStr, 10, 64)
+	if err != nil {
+		return c.String(http.StatusBadRequest, "Invalid size")
+	}
+
+	if c.QueryParam("t") == "qr" {
+		return c.Blob(http.StatusOK, "image/vnd.wap.wbmp", barcode.CreateQR(string(content), size))
+	} else if c.QueryParam("t") == "aztec" {
+		return c.Blob(http.StatusOK, "image/vnd.wap.wbmp", barcode.CreateAztec(string(content), size))
+	} else if c.QueryParam("t") == "code128" {
+		return c.Blob(http.StatusOK, "image/vnd.wap.wbmp", barcode.CreateCode128(string(content), size))
 	}
 
 	return nil

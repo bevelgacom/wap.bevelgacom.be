@@ -19,8 +19,18 @@ Content:
 <option value="code128">Code128</option>
 </select>
 </p>
+
+<p>
+Size: 
+<select name="size" ivalue="60">
+<option value="60">60px (Nokia 7110)</option>
+<option value="70">70px</option>
+<option value="80">80px</option>
+<option value="90">90px</option>
+</select>
+</p>
 <do type="accept" label="&gt; Show Barcode">
-<go href="/barcode/barcode?type=$(type)&amp;content=$(content)"/>
+<go href="/barcode/barcode?t=$(type)&amp;c=$(content)&amp;s=$(size)"/>
 </do>
 </card>
 </wml>

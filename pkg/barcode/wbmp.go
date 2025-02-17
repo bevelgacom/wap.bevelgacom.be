@@ -2,6 +2,7 @@ package barcode
 
 import (
 	"bytes"
+	"fmt"
 	"image/png"
 	"os"
 
@@ -12,36 +13,36 @@ import (
 	"gopkg.in/gographics/imagick.v3/imagick"
 )
 
-func CreateQR(input string) []byte {
+func CreateQR(input string, size int64) []byte {
 	qrCode, _ := qr.Encode(input, qr.M, qr.Auto)
-	qrCode, _ = barcode.Scale(qrCode, 90, 90)
+	qrCode, _ = barcode.Scale(qrCode, int(size), int(size))
 
 	bufer := bytes.NewBuffer([]byte{})
 
 	// encode the barcode as png
 	png.Encode(bufer, qrCode)
 
-	return ImageToWBMP(bufer.Bytes())
+	return ImageToWBMP(bufer.Bytes(), size)
 }
 
-func CreateAztec(input string) []byte {
+func CreateAztec(input string, size int64) []byte {
 	aztecCode, _ := aztec.Encode([]byte(input), 0, 0)
-	aztecCode, _ = barcode.Scale(aztecCode, 90, 90)
+	aztecCode, _ = barcode.Scale(aztecCode, int(size), int(size))
 
 	bufer := bytes.NewBuffer([]byte{})
 
 	// encode the barcode as png
 	png.Encode(bufer, aztecCode)
 
-	return ImageToWBMP(bufer.Bytes())
+	return ImageToWBMP(bufer.Bytes(), size)
 }
 
-func CreateCode128(input string) []byte {
+func CreateCode128(input string, size int64) []byte {
 	bcode, err := code128.Encode(input)
 	if err != nil {
 		panic(err)
 	}
-	bcodeScaled, err := barcode.Scale(bcode, 101, 40)
+	bcodeScaled, err := barcode.Scale(bcode, 101, int(size))
 	if err != nil {
 		panic(err)
 	}
@@ -54,10 +55,10 @@ func CreateCode128(input string) []byte {
 		panic(err)
 	}
 
-	return ImageToWBMP(bufer.Bytes())
+	return ImageToWBMP(bufer.Bytes(), size)
 }
 
-func ImageToWBMP(input []byte) []byte {
+func ImageToWBMP(input []byte, size int64) []byte {
 	imagick.Initialize()
 	defer imagick.Terminate()
 
@@ -70,11 +71,11 @@ func ImageToWBMP(input []byte) []byte {
 		panic(err)
 	}
 
-	_, err = imagick.ConvertImageCommand([]string{"convert", tmpdir + "/image.png", "-resize", "90", "-monochrome", tmpdir + "/output.bmp"})
+	_, err = imagick.ConvertImageCommand([]string{"convert", tmpdir + "/image.png", "-resize", fmt.Sprintf("%d", size), "-monochrome", tmpdir + "/output.bmp"})
 	if err != nil {
 		panic(err)
 	}
-	imagick.ConvertImageCommand([]string{"convert", tmpdir + "/output.bmp", "-resize", "90", tmpdir + "/output.wbmp"})
+	imagick.ConvertImageCommand([]string{"convert", tmpdir + "/output.bmp", "-resize", fmt.Sprintf("%d", size), tmpdir + "/output.wbmp"})
 
 	// read the image from the file
 	output, err := os.ReadFile(tmpdir + "/output.wbmp")
