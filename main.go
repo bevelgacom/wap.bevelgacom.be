@@ -19,6 +19,9 @@ func main() {
 	e.GET("/dl/*", serveDL)
 	e.GET("/nws/list", serveNewsList)
 	e.GET("/nws/item", serveNewsItem)
+	e.GET("/barcode/*", serveBarcode)
+	e.GET("/barcode/barcode", serveBarcodePage)
+	e.GET("/barcode/image.wbmp", serveBarcodeImage)
 
 	e.Start(":8080")
 }

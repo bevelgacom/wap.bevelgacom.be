@@ -30,5 +30,9 @@ Welcome to the Bevelgacom WAP portal!
 <a href="/navigator/">DB Navigator</a>
 </p>
 
+<p>
+<a href="/barcode/">Barcode Generator</a>
+</p>
+
 </card>
 </wml>
