@@ -19,7 +19,7 @@ Content:
 <option value="code128">Code128</option>
 </select>
 </p>
-<do type="accept" label="&gt; Search">
+<do type="accept" label="&gt; Show Barcode">
 <go href="/barcode/barcode?type=$(type)&amp;content=$(content)"/>
 </do>
 </card>
