@@ -67,6 +67,8 @@ func serveBarcodeImage(c echo.Context) error {
 		return c.Blob(http.StatusOK, "image/vnd.wap.wbmp", barcode.CreateQR(string(content)))
 	} else if c.QueryParam("type") == "aztec" {
 		return c.Blob(http.StatusOK, "image/vnd.wap.wbmp", barcode.CreateAztec(string(content)))
+	} else if c.QueryParam("type") == "code128" {
+		return c.Blob(http.StatusOK, "image/vnd.wap.wbmp", barcode.CreateCode128(string(content)))
 	}
 
 	return nil

@@ -16,6 +16,7 @@ Content:
 <select name="type" ivalue="qr">
 <option value="qr">QR</option>
 <option value="aztec">Aztec</option>
+<option value="code128">Code128</option>
 </select>
 </p>
 <do type="accept" label="&gt; Search">
