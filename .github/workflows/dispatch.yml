@@ -43,3 +43,4 @@ jobs:
         docker rm wap_container || true
         docker pull ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA
         docker run -d --restart=always -e NAVIGATOR_API_URL="http://192.168.8.13:3000" --name wap_container -p 8080:8080 ghcr.io/${{ github.repository }}/wap:$GITHUB_SHA
+        docker system prune -f -a
