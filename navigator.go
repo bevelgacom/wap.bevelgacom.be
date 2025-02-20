@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/csv"
 	"fmt"
 	"io"
 	"log"
@@ -17,7 +18,6 @@ import (
 	"github.com/bevelgacom/wap.wap.bevelgacom.be/pkg/dbnav"
 	"github.com/labstack/echo/v4"
 	"github.com/lithammer/fuzzysearch/fuzzy"
-	"github.com/scizorman/go-ndjson"
 )
 
 const dbTime = "2006-01-02T15:04:05-07:00"
@@ -27,9 +27,9 @@ var tz *time.Location
 var nav *dbnav.Client
 
 type Station struct {
-	Id     string  `json:"id"`
-	Name   string  `json:"name"`
-	Weight float64 `json:"weight"`
+	Id        string
+	Name      string
+	NameLower string
 }
 
 type Leg struct {
@@ -86,29 +86,35 @@ func init() {
 		log.Panicln(err)
 	}
 
-	f, err := os.Open("./hafas-stations.ndjson")
+	f, err := os.Open("./stations.csv")
 	if err != nil {
 		log.Panicln(err)
 	}
-	data, err := io.ReadAll(f)
-	if err != nil {
-		log.Panicln(err)
-	}
-	stationList := [][]any{}
-	err = ndjson.Unmarshal(data, &stationList)
-	if err != nil {
-		log.Panicln(err)
-	}
+	defer f.Close()
+	// parse CSV
 
-	for _, s := range stationList {
-		id := s[0].(string)
-		name := s[1].(string)
-		weight := s[2].(float64)
+	r := csv.NewReader(f)
+	r.Comma = ';'
+	for {
+		record, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		Stations[id] = Station{
-			Id:     id,
-			Name:   name,
-			Weight: weight,
+		if len(record) < 22 {
+			continue
+		}
+
+		db_id := record[21]
+		name := record[1]
+
+		Stations[db_id] = Station{
+			Id:        db_id,
+			Name:      name,
+			NameLower: strings.ToLower(name),
 		}
 	}
 
@@ -121,14 +127,12 @@ func init() {
 func seachStation(q string) []Station {
 	result := []Station{}
 	match := map[string]int{}
+	q = strings.ToLower(q)
 	for _, s := range Stations {
-		if s.Weight < 0.5 {
-			continue
-		}
-		if strings.EqualFold(q, s.Name) {
+		if strings.EqualFold(q, s.NameLower) {
 			return []Station{s}
 		}
-		if score := fuzzy.RankMatch(q, s.Name); score > 0 && score < 10 {
+		if score := fuzzy.RankMatch(q, s.NameLower); score > 0 && score < 10 {
 			result = append(result, s)
 			match[s.Id] = score
 		}
@@ -139,15 +143,9 @@ func seachStation(q string) []Station {
 	if len(result) > 10 {
 		result = result[:10]
 	}
-	// sort on weight and match score
-	slices.SortFunc(result, func(a, b Station) int {
-		as := a.Weight - float64(match[a.Id]*30)
-		bs := b.Weight - float64(match[b.Id]*30)
-		return int(bs - as)
-	})
 
 	for _, s := range result {
-		log.Println(s.Name, s.Weight, match[s.Id])
+		log.Println(s.NameLower, match[s.Id])
 	}
 
 	return result

@@ -17,7 +17,7 @@ RUN apk add --no-cache ca-certificates tzdata imagemagick-dev imagemagick
 RUN mkdir /opt/wap.bevelgacom.be
 WORKDIR /opt/wap.bevelgacom.be
 
-COPY --from=build /go/src/github.com/bevelgacom/wap.bevelgacom.be/hafas-stations.ndjson /opt/wap.bevelgacom.be/
+COPY --from=build /go/src/github.com/bevelgacom/wap.bevelgacom.be/stations.csv /opt/wap.bevelgacom.be/
 COPY --from=build /go/src/github.com/bevelgacom/wap.bevelgacom.be/server /usr/local/bin
 COPY --from=build /go/src/github.com/bevelgacom/wap.bevelgacom.be/static /opt/wap.bevelgacom.be/static
 
