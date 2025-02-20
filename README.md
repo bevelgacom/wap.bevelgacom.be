@@ -69,3 +69,20 @@ Note you might have to add a few MIME rules
 
 * `text/vnd.wap.wml` for WML
 * `image/vnd.wap.wbmp` for WBMP
+
+## Public GSM Provider capabilites
+
+(PRs welcome from your own testing)
+
+### Belgium
+
+| Operator          | CSD  | WAP over SMS | GPRS | EDGE |
+| :---------------- | :--: | :---------:  | :--: | :---:|
+| Orange| X | Blocks outgoing* | OK | OK
+| Proximus | X | OK** | issues on 5G towers | OK
+| BASE/Telenet | X | ? | OK  | OK
+| Hey (Orange MVNO) | C | Blocks outgoing* | OK | OK
+| Mobile Vikings (Proximus) | X | OK** | issues on 5G towers | OK
+
+`* Blocks requests sent by phone, usable as server just fine`  
+`** Needs 3rd party gateway such as Bevelgacom`
