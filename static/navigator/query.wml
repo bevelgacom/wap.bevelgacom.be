@@ -13,15 +13,16 @@
 
 <p>
 From:
-{{- if not .From }}
-<input name="start" title="From:" maxlength="20" value="{{.FromValue}}"/>
-{{- end }}
 {{- if .FromList }}
 <select name="start" ivalue="0">
 {{- range .FromList }}
 <option value="{{.Id}}">{{.Name}}</option>
 {{- end }}
 </select>
+{{- else }}
+{{- if not .From }}
+<input name="start" title="From:" maxlength="20" value="{{.FromValue}}"/>
+{{- end }}
 {{- end }}
 {{ if .From }}
 {{ .From.Name }}
@@ -30,15 +31,15 @@ From:
 
 <p>
 To:
-{{- if not .To }}
-<input name="ziel" title="To:" maxlength="20" value="{{.ToValue}}"/>
-{{- end }}
 {{- if .ToList }}
 <select name="ziel" ivalue="0">
 {{- range .ToList }}
 <option value="{{.Id}}">{{.Name}}</option>
 {{- end }}
 </select>
+{{- else }}
+{{- if not .To }}
+<input name="ziel" title="To:" maxlength="20" value="{{.ToValue}}"/>
 {{- end }}
 {{ if .To }}
 {{ .To.Name }}
