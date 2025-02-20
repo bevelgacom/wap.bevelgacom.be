@@ -34,5 +34,9 @@ Welcome to the Bevelgacom WAP portal!
 <a href="/barcode/">Barcode Generator</a>
 </p>
 
+<p>
+<a href="/wap/portal.wml">Bevelgacom Portal</a>
+</p>
+
 </card>
 </wml>

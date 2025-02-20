@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">
+
+<wml>
+<card id="card1" title="WAP Categories">
+<p>
+Welcome to the WAP Portal, your gateway to the world-wide-wireless-web!
+</p>
+
+<p>
+<a href="/wap/portal-utils.wml">Utilities</a>
+</p>
+<p>
+<a href="/wap/portal-personal.wml">Personal WAP sites</a>
+</p>
+<p>
+<a href="/wap/portal-news.wml">News &amp; Weather</a>
+</p>
+<p>
+<a href="/wap/portal-fun.wml">Fun and games</a>
+</p>
+<do type="prev" label="Back">
+<prev/>
+</do>
+</card>
+</wml>
