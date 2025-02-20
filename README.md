@@ -81,7 +81,7 @@ Note you might have to add a few MIME rules
 | Orange| X | Blocks outgoing* | OK | OK
 | Proximus | X | OK** | issues on 5G towers | OK
 | BASE/Telenet | X | ? | OK  | OK
-| Hey (Orange MVNO) | C | Blocks outgoing* | OK | OK
+| Hey (Orange MVNO) | X | Blocks outgoing* | OK | OK
 | Mobile Vikings (Proximus) | X | OK** | issues on 5G towers | OK
 
 `* Blocks requests sent by phone, usable as server just fine`  
