@@ -41,6 +41,7 @@ To:
 {{- if not .To }}
 <input name="ziel" title="To:" maxlength="20" value="{{.ToValue}}"/>
 {{- end }}
+{{- end }}
 {{ if .To }}
 {{ .To.Name }}
 {{- end }}
