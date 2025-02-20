@@ -3,7 +3,7 @@
 <wml>
 <card id="list" title="Connections">
 <p>
-Dep.&nbsp;&nbsp;Arr.&nbsp;&nbsp;Ch.
+Dep.  Arr.  Ch.
 </p>
 <p>
 <img src="./line.wbmp" alt="----------"/>
@@ -13,7 +13,7 @@ Dep.&nbsp;&nbsp;Arr.&nbsp;&nbsp;Ch.
 <p>
 <anchor>
 <go href="#conn{{.Id}}"/>
-{{.DepartureTime}}&nbsp;{{.ArrivalTime}}&nbsp;{{.Changes}}
+{{.DepartureTime}} {{.ArrivalTime}} {{.Changes}}
 </anchor>
 </p>
 {{- end }}
@@ -27,12 +27,15 @@ Dep.&nbsp;&nbsp;Arr.&nbsp;&nbsp;Ch.
 <card id="conn{{ .Id }}" title="Connection {{ .Id }}">
 <p>From {{ .From }} to {{ .To }}</p>
 {{- range .Legs }}
-<p>{{ .DepartureTime }}&nbsp;{{ .From }}&nbsp;pl. {{ .DeparturePlatform }}&nbsp;-&nbsp;{{.Line}}</p>
+<p>{{ .DepartureTime }} {{ .From }} pl. {{ .DeparturePlatform }}</p>
+
+<p>{{.Line}}</p>
 
 <p>
 <img src="./pfeil.wbmp" alt="----->"/>
-&nbsp;{{ .To }}&nbsp;{{ .ArrivalTime }}&nbsp;pl. {{ .ArrivalPlatform }}
+ {{ .To }} {{ .ArrivalTime }} pl. {{ .ArrivalPlatform }}
 </p>
+<img src="./line.wbmp" alt="------"/>
 {{- end}}
 
 <do type="accept" label="&lt; Back">
