@@ -79,10 +79,21 @@ Note you might have to add a few MIME rules
 | Operator          | CSD  | WAP over SMS | GPRS | EDGE |
 | :---------------- | :--: | :---------:  | :--: | :---:|
 | Orange| X | Blocks outgoing* | OK | OK
-| Proximus | X | OK** | issues on 5G towers | OK
+| Proximus | X | OK** | issues on 5G towers | ~ ***
 | BASE/Telenet | X | ? | OK  | OK
 | Hey (Orange MVNO) | X | Blocks outgoing* | OK | OK
-| Mobile Vikings (Proximus) | X | OK** | issues on 5G towers | OK
+| Mobile Vikings (Proximus) | X | OK** | issues on 5G towers | ~***
+| Digi ****| X | X | X | X
 
 `* Blocks requests sent by phone, usable as server just fine`  
-`** Needs 3rd party gateway such as Bevelgacom`
+`** Needs 3rd party gateway such as Bevelgacom`  
+`*** Proximus shows issues on 2G data, milage may vary`  
+`**** Digi shows total failure to register on a 2G network, has issues with SMS centers being coded as Romania on SIM. And various other hasty deployment issues, would have loved to give them a better score but this is the sad truth, never use them for retro phones`
+
+### The Netherlands
+
+| Operator          | CSD  | WAP over SMS | GPRS | EDGE |
+| :---------------- | :--: | :---------:  | :--: | :---:|
+| Vodafone | OK* | Untested| OK | OK
+
+`*` CSD to our suprise works! Set to Analog and use a [Dial up](https://bevelgacom.be/products/dial-up/) number. This is tested 02/2025 as CSD has been phased out everywhere else we have no guarantees of this.
