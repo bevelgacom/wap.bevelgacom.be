@@ -81,5 +81,10 @@ func serveWAP(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, "")
 	}
 
-	return c.Stream(http.StatusOK, "text/vnd.wap.wml", f)
+	mime := "text/vnd.wap.wml"
+	if strings.HasSuffix(file, ".wbmp") {
+		mime = "image/vnd.wap.wbmp"
+	}
+
+	return c.Stream(http.StatusOK, mime, f)
 }
