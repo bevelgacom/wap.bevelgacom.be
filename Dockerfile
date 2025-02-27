@@ -1,6 +1,6 @@
 FROM golang:1.23-alpine as build
 
-RUN apk add --no-cache imagemagick-dev gcc musl-dev pkgconfig
+RUN apk add --no-cache imagemagick-dev gcc musl-dev pkgconfig imagemagick imagemagick-webp imagemagick-tiff imagemagick-svg imagemagick-jpeg imagemagick-heic
 
 ENV CGO_ENABLED=1
 
@@ -12,7 +12,7 @@ RUN go build -o server ./
 
 FROM alpine:edge
 
-RUN apk add --no-cache ca-certificates tzdata imagemagick-dev imagemagick
+RUN apk add --no-cache ca-certificates tzdata imagemagick-dev imagemagick imagemagick-webp imagemagick-tiff imagemagick-svg imagemagick-jpeg imagemagick-heic
 
 RUN mkdir /opt/wap.bevelgacom.be
 WORKDIR /opt/wap.bevelgacom.be
