@@ -22,6 +22,7 @@ func main() {
 	e.GET("/barcode/*", serveBarcode)
 	e.GET("/barcode/barcode", serveBarcodePage)
 	e.GET("/barcode/image.wbmp", serveBarcodeImage)
+	e.GET("/png-convert.wbmp", serveImage)
 
 	e.Start(":8080")
 }

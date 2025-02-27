@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"text/template"
@@ -90,11 +91,11 @@ func serveNewsItem(c echo.Context) error {
 	}
 
 	if article.Image != nil {
-		item.ImageURL = fmt.Sprintf("http://i0.wp.com/%s?w=100", strings.Replace(article.Image.URL, "https://", "", -1))
+		item.ImageURL = fmt.Sprintf("/png-convert.wbmp?url=%s", url.QueryEscape(strings.Replace(article.Image.URL, "https://", "", -1)))
 	} else if len(article.Enclosures) > 0 {
 		for _, enclosure := range article.Enclosures {
 			if strings.HasPrefix(enclosure.Type, "image") {
-				item.ImageURL = fmt.Sprintf("http://i0.wp.com/%s?w=100", strings.Replace(enclosure.URL, "https://", "", -1))
+				item.ImageURL = fmt.Sprintf("/png-convert.wbmp?url=%s", url.QueryEscape(strings.Replace(enclosure.URL, "https://", "", -1)))
 				break
 			}
 		}
