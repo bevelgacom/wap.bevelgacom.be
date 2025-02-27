@@ -91,14 +91,20 @@ func serveNewsItem(c echo.Context) error {
 	}
 
 	if article.Image != nil {
-		item.ImageURL = fmt.Sprintf("/png-convert.wbmp?url=%s", url.QueryEscape(strings.Replace(article.Image.URL, "https://", "", -1)))
+		item.ImageURL = article.Image.URL
+
 	} else if len(article.Enclosures) > 0 {
 		for _, enclosure := range article.Enclosures {
 			if strings.HasPrefix(enclosure.Type, "image") {
-				item.ImageURL = fmt.Sprintf("/png-convert.wbmp?url=%s", url.QueryEscape(strings.Replace(enclosure.URL, "https://", "", -1)))
+				item.ImageURL = enclosure.URL
 				break
 			}
 		}
+	}
+
+	if item.ImageURL != "" {
+		cachedLink := StoreLink(item.ImageURL)
+		item.ImageURL = fmt.Sprintf("/png-convert.wbmp?url=%s", url.QueryEscape("cache:"+cachedLink))
 	}
 
 	c.Response().Header().Set("Content-Type", "text/vnd.wap.wml")

@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -17,8 +16,15 @@ func serveImage(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "no URL provided")
 	}
 
+	if strings.HasPrefix(imageURL, "cache:") {
+		imageURL = GetLink(imageURL[6:])
+		if imageURL == "" {
+			return c.String(http.StatusBadRequest, "invalid cache link")
+		}
+	}
+
 	// download the image
-	resp, err := http.Get(fmt.Sprintf("https://%s", imageURL))
+	resp, err := http.Get(imageURL)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "")
 	}
