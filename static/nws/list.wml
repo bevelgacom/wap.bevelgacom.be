@@ -8,5 +8,9 @@
 <a href="{{ .Href }}">{{ .Title }}</a>
 </p>
 {{- end }}
+
+<do type="prev" label="Back">
+<prev/>
+</do>
 </card>
 </wml>

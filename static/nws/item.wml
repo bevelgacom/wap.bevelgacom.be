@@ -11,5 +11,9 @@
 <p>
 {{ .Item.Content }}
 </p>
+
+<do type="prev" label="Back">
+<prev/>
+</do>
 </card>
 </wml>
