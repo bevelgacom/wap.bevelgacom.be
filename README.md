@@ -108,3 +108,19 @@ Note you might have to add a few MIME rules
 | :---------------- | :--: | :---------:  | :--: | :---:|
 | Yesss (A1) | X | ? | OK | ?
 
+
+## How to acheive maximum compatibility, aka the Nokia 7110 standard
+
+You want to get to the true 1999 standard? Perfect! The first major selling phone with WAP was the Nokia 7110. It did have a few quirks:
+
+* Tables only got added in the last firmware
+* Caching controls is broken, it will always cache think abour unique URLs if needed
+* Long URLs are cut of at ~100 bytes in SMS mode, absolute max is 100 for home, 255 for others
+* 1.3 kilobytes binary data per card deck maximum
+* It has no back button, really! You need to program one in every card
+
+```xml
+<do type="prev" label="Back">
+<prev/>
+</do>
+```
