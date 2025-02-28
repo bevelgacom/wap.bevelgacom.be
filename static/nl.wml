@@ -15,6 +15,10 @@ Welcome to the Bevelgacom WAP portal!
 </p>
 
 <p>
+<a href="/wap/portal.wml">Bevelgacom Portal</a>
+</p>
+
+<p>
 <a href="/nws/list">Lees VRT NWS</a>
 </p>
 
@@ -28,10 +32,6 @@ Welcome to the Bevelgacom WAP portal!
 
 <p>
 <a href="/navigator/">DB Navigator</a>
-</p>
-
-<p>
-<a href="/wap/portal.wml">Bevelgacom Portal</a>
 </p>
 
 </card>
