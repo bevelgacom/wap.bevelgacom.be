@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">
+<wml>
+<card id="card1" title="Bevelgacom Weather">
+<p>
+<img src="/wap/assets/weather.wbmp" alt="Weather"/>
+</p>
+
+<p>
+Location:
+{{- if .LocationList }}
+<select name="loc" ivalue="0">
+{{- range .LocationList }}
+<option value="{{.ID}}">{{.Name}}</option>
+{{- end }}
+</select>
+{{- else }}
+<input name="loc" title="Location:" maxlength="20" value="{{.LocationValue}}"/>
+{{- end }}
+</p>
+
+<p align="center"><small>Bevelgacom Weather is proudly powered by Open-Meteo</small></p>
+
+{{- if .LocationList }}
+<do type="accept" label="&gt; Show Weather">
+<go href="/weather/details?loc=$(loc)"/>
+</do>
+{{- else }}
+<do type="accept" label="&gt; Search">
+<go href="/weather/location?loc=$(loc)"/>
+</do>
+{{- end }}
+<do type="prev" label="Back">
+<prev/>
+</do>
+</card>
+</wml>

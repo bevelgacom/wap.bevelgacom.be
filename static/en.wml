@@ -38,5 +38,9 @@ Welcome to the Bevelgacom WAP portal!
 <a href="/barcode/">Barcode Generator</a>
 </p>
 
+<p>
+<a href="/weather/location">Weather</a>
+</p>
+
 </card>
 </wml>

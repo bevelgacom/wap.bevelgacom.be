@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path"
 	"strings"
 
 	"github.com/labstack/echo/v4"
@@ -14,15 +13,21 @@ func main() {
 	e := echo.New()
 	e.GET("/", serveHome)
 	e.GET("/wap/*", serveWAP)
+	e.GET("/dl/*", serveDL)
+
 	e.GET("/navigator/*", serveNavigator)
 	e.GET("/navigator/query", serveNavigatorQuery)
-	e.GET("/dl/*", serveDL)
+
 	e.GET("/nws/list", serveNewsList)
 	e.GET("/nws/item", serveNewsItem)
+
 	e.GET("/barcode/*", serveBarcode)
 	e.GET("/barcode/barcode", serveBarcodePage)
 	e.GET("/barcode/image.wbmp", serveBarcodeImage)
 	e.GET("/png-convert.wbmp", serveImage)
+
+	e.GET("/weather/location", serveWeatherLocation)
+	e.GET("/weather/details", serveWeatherDetailView)
 
 	e.Start(":8080")
 }
@@ -46,8 +51,14 @@ func serveDL(c echo.Context) error {
 	if req == nil {
 		return c.String(http.StatusInternalServerError, "")
 	}
-	_, file := path.Split(req.URL.Path)
-	f, err := os.Open("./static/dl/" + file)
+	r, err := os.OpenRoot("./static/dl")
+	if err != nil {
+		log.Panicln(err)
+		return c.String(http.StatusInternalServerError, "")
+	}
+
+	file := strings.TrimPrefix(req.URL.Path, "/dl/")
+	f, err := r.Open(file)
 
 	if err == os.ErrNotExist {
 		return c.String(http.StatusNotFound, "")
@@ -72,8 +83,14 @@ func serveWAP(c echo.Context) error {
 	if req == nil {
 		return c.String(http.StatusInternalServerError, "")
 	}
-	_, file := path.Split(req.URL.Path)
-	f, err := os.Open("./static/" + file)
+	file := strings.TrimPrefix(req.URL.Path, "/wap/")
+	r, err := os.OpenRoot("./static/")
+	if err != nil {
+		log.Panicln(err)
+		return c.String(http.StatusInternalServerError, "")
+	}
+
+	f, err := r.Open(file)
 
 	if err == os.ErrNotExist {
 		return c.String(http.StatusNotFound, "")
