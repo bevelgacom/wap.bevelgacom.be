@@ -99,12 +99,12 @@ Note you might have to add a few MIME rules
 | Odido | X | X | X | 2G shutdown
 
 
+`*` CSD to our suprise works! Set to Analog and use a [Dial up](https://bevelgacom.be/products/dial-up/) number. This is tested 02/2025 as CSD has been phased out everywhere else we have no guarantees of this.
+
+
 ### Austria
 
 | Operator          | CSD  | WAP over SMS | GPRS | EDGE |
 | :---------------- | :--: | :---------:  | :--: | :---:|
-| Yesss (A1) | X | ? | OK** | ?
+| Yesss (A1) | X | ? | OK | ?
 
-`** Needs 3rd party gateway such as Bevelgacom`  
-
-`*` CSD to our suprise works! Set to Analog and use a [Dial up](https://bevelgacom.be/products/dial-up/) number. This is tested 02/2025 as CSD has been phased out everywhere else we have no guarantees of this.
