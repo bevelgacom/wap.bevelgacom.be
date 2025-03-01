@@ -28,6 +28,7 @@ func main() {
 
 	e.GET("/weather/location", serveWeatherLocation)
 	e.GET("/weather/details", serveWeatherDetailView)
+	e.GET("/weather/hourly", serveWeatherHourly)
 
 	e.Start(":8080")
 }

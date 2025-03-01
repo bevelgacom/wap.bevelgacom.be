@@ -19,6 +19,8 @@ Location:
 {{- end }}
 </p>
 
+<p><br/><br/><br/><br/></p>
+
 <p align="center"><small>Bevelgacom Weather is proudly powered by Open-Meteo</small></p>
 
 {{- if .LocationList }}

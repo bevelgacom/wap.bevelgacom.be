@@ -11,22 +11,23 @@ Weather in {{.Location}}
 </p>
 
 <p align="center">
-    <b><i>Current Weather</i></b>
+    <b><i>Hourly Forcast</i></b>
 </p>
 
+
+{{- range .Data }}
 <p> 
-    <img src="/wap/assets/weather/{{.Now.Icon}}.wbmp" alt="icon"/>
-    <b>Temperature:</b> {{.Now.Temperature}} <br/>
-    <b>Wind speed:</b> {{.Now.WindSpeed}} <br/>
-    <b>Wind direction:</b> {{.Now.WindDirection}} <br/>
+    <img src="/wap/assets/weather/{{.Icon}}.wbmp" alt="icon"/>
+    <b>{{.Time}}</b> <br/>
+    <b>Temperature:</b> {{.Temperature}} <br/>
+    <b>Wind speed:</b> {{.WindSpeed}} <br/>
+    <b>Wind direction:</b> {{.WindDirection}} <br/>
+    <b>Precipitation:</b> {{.Precipitation}} <br/>
 </p>
-
-<p><br/></p>
-
-
 <p>
-<a href="/weather/hourly?loc={{.LocationID}}">Hourly Forcast</a>
+<img src="/wap/assets/line.wbmp" alt="------"/>
 </p>
+{{- end}}
 
 <p><br/><br/><br/><br/></p>
 

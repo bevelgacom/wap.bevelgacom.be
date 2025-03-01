@@ -102,16 +102,21 @@ func serveWeatherLocation(c echo.Context) error {
 	return tmpl.Execute(c.Response().Writer, page)
 }
 
-type WeatherNow struct {
+type WeatherCondition struct {
 	Icon          string
 	Temperature   string
 	WindSpeed     string
 	WindDirection string
+
+	// for forcecast
+	Time          string
+	Precipitation string
 }
 
 type WeatherDetailPage struct {
-	Location string
-	Now      WeatherNow
+	LocationID string
+	Location   string
+	Now        WeatherCondition
 }
 
 func wwoToOpenweathermapIcon(wwo string) string {
@@ -195,7 +200,9 @@ func serveWeatherDetailView(c echo.Context) error {
 		DailyMetrics:  []string{"temperature_2m_max"},
 	}
 
-	page := WeatherDetailPage{}
+	page := WeatherDetailPage{
+		LocationID: locStr,
+	}
 	weatherLocationLock.RLock()
 	locName, ok := weatherLocation[locStr]
 	weatherLocationLock.RUnlock()
@@ -209,8 +216,8 @@ func serveWeatherDetailView(c echo.Context) error {
 		return c.Redirect(http.StatusFound, "/weather/location")
 	}
 
-	page.Now = WeatherNow{
-		Icon:          wwoToOpenweathermapIcon(fmt.Sprintf("%d", cw.WeatherCode)),
+	page.Now = WeatherCondition{
+		Icon:          wwoToOpenweathermapIcon(fmt.Sprintf("%d", int(cw.WeatherCode))),
 		Temperature:   fmt.Sprintf("%.1f°C", cw.Temperature),
 		WindSpeed:     fmt.Sprintf("%.1f km/h", cw.WindSpeed),
 		WindDirection: windDirection(cw.WindDirection),
@@ -221,6 +228,74 @@ func serveWeatherDetailView(c echo.Context) error {
 		log.Println(err)
 		return c.Redirect(http.StatusFound, "/weather/location")
 	}*/
+
+	c.Response().Header().Set("Content-Type", "text/vnd.wap.wml")
+
+	return tmpl.Execute(c.Response().Writer, page)
+}
+
+type WeatherHourlyPage struct {
+	LocationID string
+	Location   string
+	Data       []WeatherCondition
+}
+
+func serveWeatherHourly(c echo.Context) error {
+	tmpl := template.Must(template.ParseFiles("./static/weather/hourly.wml"))
+	locStr := c.QueryParam("loc")
+	if locStr == "" {
+		return c.Redirect(http.StatusFound, "/weather/location")
+	}
+
+	// parse the location
+	var lat, long float64
+	_, err := fmt.Sscanf(locStr, "%f,%f", &lat, &long)
+	if err != nil {
+		return c.Redirect(http.StatusFound, "/weather/location")
+	}
+
+	wc, _ := omgo.NewClient()
+	loc, err := omgo.NewLocation(lat, long)
+	if err != nil {
+		log.Println(err)
+		return c.Redirect(http.StatusFound, "/weather/location")
+	}
+
+	opts := omgo.Options{
+		Timezone:      "Europe/Brussels",
+		HourlyMetrics: []string{"temperature_2m", "precipitation_probability", "precipitation", "weather_code", "wind_speed_10m", "wind_direction_10m"},
+	}
+
+	page := WeatherHourlyPage{
+		LocationID: locStr,
+		Data:       []WeatherCondition{},
+	}
+	weatherLocationLock.RLock()
+	locName, ok := weatherLocation[locStr]
+	weatherLocationLock.RUnlock()
+	if ok {
+		page.Location = locName
+	}
+	wf, err := wc.Forecast(context.Background(), loc, &opts)
+	if err != nil {
+		log.Println(err)
+		return c.Redirect(http.StatusFound, "/weather/location")
+	}
+
+	if len(wf.HourlyTimes) > 24 {
+		wf.HourlyTimes = wf.HourlyTimes[:24]
+	}
+
+	for i, t := range wf.HourlyTimes {
+		page.Data = append(page.Data, WeatherCondition{
+			Time:          t.Format("15:04"),
+			Precipitation: fmt.Sprintf("%.1f mm", wf.HourlyMetrics["precipitation"][i]),
+			Temperature:   fmt.Sprintf("%.1f°C", wf.HourlyMetrics["temperature_2m"][i]),
+			WindSpeed:     fmt.Sprintf("%.1f km/h", wf.HourlyMetrics["wind_speed_10m"][i]),
+			WindDirection: windDirection(wf.HourlyMetrics["wind_direction_10m"][i]),
+			Icon:          wwoToOpenweathermapIcon(fmt.Sprintf("%d", int(wf.HourlyMetrics["weather_code"][i]))),
+		})
+	}
 
 	c.Response().Header().Set("Content-Type", "text/vnd.wap.wml")
 
