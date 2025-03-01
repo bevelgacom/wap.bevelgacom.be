@@ -78,15 +78,15 @@ Note you might have to add a few MIME rules
 
 | Operator          | CSD  | WAP over SMS | GPRS | EDGE |
 | :---------------- | :--: | :---------:  | :--: | :---:|
-| Orange| X | Blocks outgoing* | OK | OK
+| Orange| X | OK* | OK | OK
 | Proximus | X | OK** | issues on 5G towers | ~ ***
 | BASE/Telenet | X | GSM bands not compatible with Nokia 7110 | OK  | OK
-| Hey (Orange MVNO) | X | Blocks outgoing* | OK | OK
+| Hey (Orange MVNO) | X | OK* | OK | OK
 | Mobile Vikings (Proximus) | X | OK** | issues on 5G towers | ~***
 | Digi ****| X | X | X | X
-| Neibo (Orange MVNO)| X | Blocks outgoing* | OK | OK
+| Neibo (Orange MVNO)| X | OK* | OK | OK
 
-`* Blocks requests sent by phone, usable as server just fine. Seems to be applied in the SMSSC`  
+`* The Mobistar network seems to need an explicit SMSC set, it will drop deliveries of the WAP browser if the "Server Number" is not set to "+32 495 002 530"`  
 `** Needs 3rd party gateway such as Bevelgacom`  
 `*** Proximus shows issues on 2G data, milage may vary`  
 `**** Digi shows total failure to register on a 2G network, has issues with SMS centers being coded as Romania on SIM. And various other hasty deployment issues, would have loved to give them a better score but this is the sad truth, never use them for retro phones`
