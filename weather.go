@@ -112,6 +112,12 @@ type WeatherCondition struct {
 	// for forcecast
 	Time          string
 	Precipitation string
+
+	// daily
+	TemperatureMin string
+	TemperatureMax string
+	Sunrise        string
+	Sunset         string
 }
 
 type WeatherDetailPage struct {
@@ -195,7 +201,7 @@ func serveWeatherDetailView(c echo.Context) error {
 	}
 
 	opts := omgo.Options{
-		Timezone:      "Europe/Brussels",
+		Timezone:      "auto",
 		PastDays:      0,
 		HourlyMetrics: []string{"cloudcover, relativehumidity_2m"},
 		DailyMetrics:  []string{"temperature_2m_max"},
@@ -272,7 +278,7 @@ func serveWeatherHourly(c echo.Context) error {
 	}
 
 	opts := omgo.Options{
-		Timezone:      "Europe/Brussels",
+		Timezone:      "auto",
 		HourlyMetrics: []string{"temperature_2m", "precipitation_probability", "precipitation", "weather_code", "wind_speed_10m", "wind_direction_10m"},
 	}
 
@@ -319,6 +325,99 @@ func serveWeatherHourly(c echo.Context) error {
 			WindSpeed:     fmt.Sprintf("%.1f km/h", wf.HourlyMetrics["wind_speed_10m"][i]),
 			WindDirection: windDirection(wf.HourlyMetrics["wind_direction_10m"][i]),
 			Icon:          wwoToOpenweathermapIcon(fmt.Sprintf("%d", int(wf.HourlyMetrics["weather_code"][i]))),
+		})
+	}
+
+	c.Response().Header().Set("Content-Type", "text/vnd.wap.wml")
+
+	return tmpl.Execute(c.Response().Writer, page)
+}
+
+type WeatherDailyPage struct {
+	LocationID string
+	Location   string
+	Offset     int
+	Data       []WeatherCondition
+}
+
+func serveWeatherDaily(c echo.Context) error {
+	tmpl := template.Must(template.ParseFiles("./static/weather/daily.wml"))
+	locStr := c.QueryParam("loc")
+	if locStr == "" {
+		return c.Redirect(http.StatusFound, "/weather/location")
+	}
+
+	offset := 0
+	if c.QueryParam("o") != "" {
+		_, err := fmt.Sscanf(c.QueryParam("o"), "%d", &offset)
+		if err != nil {
+			offset = 0
+		}
+	}
+
+	// parse the location
+	var lat, long float64
+	_, err := fmt.Sscanf(locStr, "%f,%f", &lat, &long)
+	if err != nil {
+		return c.Redirect(http.StatusFound, "/weather/location")
+	}
+
+	wc, _ := omgo.NewClient()
+	loc, err := omgo.NewLocation(lat, long)
+	if err != nil {
+		log.Println(err)
+		return c.Redirect(http.StatusFound, "/weather/location")
+	}
+
+	opts := omgo.Options{
+		Timezone:     "auto",
+		DailyMetrics: []string{"weather_code", "temperature_2m_max", "temperature_2m_min", "precipitation_sum", "wind_speed_10m_max", "wind_direction_10m_dominant"},
+	}
+
+	page := WeatherHourlyPage{
+		LocationID: locStr,
+		Data:       []WeatherCondition{},
+		Offset:     offset + 6,
+	}
+	weatherLocationLock.RLock()
+	locName, ok := weatherLocation[locStr]
+	weatherLocationLock.RUnlock()
+	if ok {
+		page.Location = locName
+	}
+	wf, err := wc.Forecast(context.Background(), loc, &opts)
+	if err != nil {
+		log.Println(err)
+		return c.Redirect(http.StatusFound, "/weather/location")
+	}
+
+	startIndex := offset
+	endIndex := offset + 6
+
+	for _, t := range wf.DailyTimes {
+		if time.Now().After(t) {
+			startIndex++
+			endIndex++
+		}
+	}
+
+	if endIndex > len(wf.DailyTimes) {
+		endIndex = len(wf.DailyTimes)
+		offset = 0
+	}
+
+	for i, t := range wf.DailyTimes {
+		if i < startIndex || i >= endIndex {
+			continue
+		}
+		page.Data = append(page.Data, WeatherCondition{
+			Time:           t.Format("Mon"),
+			Precipitation:  fmt.Sprintf("%.1f mm", wf.DailyMetrics["precipitation_sum"][i]),
+			WindSpeed:      fmt.Sprintf("%.1f km/h", wf.DailyMetrics["wind_speed_10m_max"][i]),
+			WindDirection:  windDirection(wf.DailyMetrics["wind_direction_10m_dominant"][i]),
+			Icon:           wwoToOpenweathermapIcon(fmt.Sprintf("%d", int(wf.DailyMetrics["weather_code"][i]))),
+			TemperatureMin: fmt.Sprintf("%.1f°C", wf.DailyMetrics["temperature_2m_min"][i]),
+			TemperatureMax: fmt.Sprintf("%.1f°C", wf.DailyMetrics["temperature_2m_max"][i]),
 		})
 	}
 
