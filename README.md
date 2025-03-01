@@ -78,13 +78,13 @@ Note you might have to add a few MIME rules
 
 | Operator          | CSD  | WAP over SMS | GPRS | EDGE |
 | :---------------- | :--: | :---------:  | :--: | :---:|
-| Orange| X | OK* | OK | OK
+| Orange| X | OK*&** | OK | OK
 | Proximus | X | OK** | issues on 5G towers | ~ ***
 | BASE/Telenet | X | GSM bands not compatible with Nokia 7110 | OK  | OK
-| Hey (Orange MVNO) | X | OK* | OK | OK
+| Hey (Orange MVNO) | X | OK*&** | OK | OK
 | Mobile Vikings (Proximus) | X | OK** | issues on 5G towers | ~***
 | Digi ****| X | X | X | X
-| Neibo (Orange MVNO)| X | OK* | OK | OK
+| Neibo (Orange MVNO)| X | OK*&** | OK | OK
 
 `* The Mobistar network seems to need an explicit SMSC set, it will drop deliveries of the WAP browser if the "Server Number" is not set to "+32 495 002 530"`  
 `** Needs 3rd party gateway such as Bevelgacom`  
