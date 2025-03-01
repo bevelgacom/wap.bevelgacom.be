@@ -97,7 +97,8 @@ Note you might have to add a few MIME rules
 | :---------------- | :--: | :---------:  | :--: | :---:|
 | Vodafone | OK* | Untested| OK | OK
 | Odido | X | X | X | 2G shutdown
-
+| KPN | X | Untested | OK | OK
+| Lebara (KPN MVNO) | X | Untested | OK | OK
 
 `*` CSD to our suprise works! Set to Analog and use a [Dial up](https://bevelgacom.be/products/dial-up/) number. This is tested 02/2025 as CSD has been phased out everywhere else we have no guarantees of this.
 
