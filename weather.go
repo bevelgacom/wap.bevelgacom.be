@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"sync"
 	"text/template"
+	"time"
 
 	"github.com/hectormalot/omgo"
 	"github.com/labstack/echo/v4"
@@ -237,6 +238,7 @@ func serveWeatherDetailView(c echo.Context) error {
 type WeatherHourlyPage struct {
 	LocationID string
 	Location   string
+	Offset     int
 	Data       []WeatherCondition
 }
 
@@ -245,6 +247,14 @@ func serveWeatherHourly(c echo.Context) error {
 	locStr := c.QueryParam("loc")
 	if locStr == "" {
 		return c.Redirect(http.StatusFound, "/weather/location")
+	}
+
+	offset := 0
+	if c.QueryParam("o") != "" {
+		_, err := fmt.Sscanf(c.QueryParam("o"), "%d", &offset)
+		if err != nil {
+			offset = 0
+		}
 	}
 
 	// parse the location
@@ -269,6 +279,7 @@ func serveWeatherHourly(c echo.Context) error {
 	page := WeatherHourlyPage{
 		LocationID: locStr,
 		Data:       []WeatherCondition{},
+		Offset:     offset + 6,
 	}
 	weatherLocationLock.RLock()
 	locName, ok := weatherLocation[locStr]
@@ -282,13 +293,27 @@ func serveWeatherHourly(c echo.Context) error {
 		return c.Redirect(http.StatusFound, "/weather/location")
 	}
 
-	if len(wf.HourlyTimes) > 24 {
-		wf.HourlyTimes = wf.HourlyTimes[:24]
+	startIndex := offset
+	endIndex := offset + 6
+
+	for _, t := range wf.HourlyTimes {
+		if time.Now().After(t) {
+			startIndex++
+			endIndex++
+		}
+	}
+
+	if endIndex > len(wf.HourlyTimes) {
+		endIndex = len(wf.HourlyTimes)
+		offset = 0
 	}
 
 	for i, t := range wf.HourlyTimes {
+		if i < startIndex || i >= endIndex {
+			continue
+		}
 		page.Data = append(page.Data, WeatherCondition{
-			Time:          t.Format("15:04"),
+			Time:          t.Format("Mon 15:04"),
 			Precipitation: fmt.Sprintf("%.1f mm", wf.HourlyMetrics["precipitation"][i]),
 			Temperature:   fmt.Sprintf("%.1f°C", wf.HourlyMetrics["temperature_2m"][i]),
 			WindSpeed:     fmt.Sprintf("%.1f km/h", wf.HourlyMetrics["wind_speed_10m"][i]),
