@@ -114,7 +114,7 @@ func init() {
 		Stations[db_id] = Station{
 			Id:        db_id,
 			Name:      name,
-			NameLower: strings.ToLower(name),
+			NameLower: strings.ReplaceAll(strings.ToLower(name), "-", " "),
 		}
 	}
 
@@ -128,6 +128,7 @@ func seachStation(q string) []Station {
 	result := []Station{}
 	match := map[string]int{}
 	q = strings.ToLower(q)
+	q = strings.ReplaceAll(q, "-", " ")
 	for _, s := range Stations {
 		if strings.EqualFold(q, s.NameLower) {
 			return []Station{s}
