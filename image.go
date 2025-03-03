@@ -39,5 +39,9 @@ func serveImage(c echo.Context) error {
 	buffer := bytes.NewBuffer([]byte{})
 	buffer.ReadFrom(resp.Body)
 
+	if strings.Contains(resp.Header.Get("Accept"), "image/jpeg") {
+		return c.Blob(http.StatusOK, "image/jpeg", image.ImageToJPEG(buffer.Bytes(), 80))
+	}
+
 	return c.Blob(http.StatusOK, "image/vnd.wap.wbmp", image.ImageToWBMP(buffer.Bytes(), 80))
 }
