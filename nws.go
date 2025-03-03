@@ -46,10 +46,11 @@ func serveNewsList(c echo.Context) error {
 		}
 	}
 
-	offset := 0
+	var offset int64 = 0
 	if c.QueryParam("o") != "" {
-		offset, err = strconv.Atoi(c.QueryParam("offset"))
+		offset, err = strconv.ParseInt(c.QueryParam("o"), 10, 64)
 		if err != nil {
+			log.Println(err)
 			return c.String(http.StatusBadRequest, "")
 		}
 	}
@@ -71,8 +72,8 @@ func serveNewsList(c echo.Context) error {
 		})
 	}
 
-	if offset > len(nwsItems) {
-		offset = len(nwsItems)
+	if int(offset) > len(nwsItems) {
+		offset = int64(len(nwsItems))
 	}
 
 	if offset > 0 {
@@ -88,7 +89,7 @@ func serveNewsList(c echo.Context) error {
 		showMore = false
 	}
 
-	return tmpl.Execute(c.Response().Writer, listPage{Items: nwsItems, MaxItems: maxItems, NewOffset: offset + maxItems, ShowMore: showMore})
+	return tmpl.Execute(c.Response().Writer, listPage{Items: nwsItems, MaxItems: maxItems, NewOffset: int(offset) + maxItems, ShowMore: showMore})
 }
 
 func serveNewsItem(c echo.Context) error {
@@ -101,7 +102,7 @@ func serveNewsItem(c echo.Context) error {
 
 	offset := 0
 	if c.QueryParam("o") != "" {
-		offset, err = strconv.Atoi(c.QueryParam("offset"))
+		offset, err = strconv.Atoi(c.QueryParam("o"))
 		if err != nil {
 			return c.String(http.StatusBadRequest, "")
 		}
