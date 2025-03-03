@@ -25,6 +25,13 @@ func grabFeed() (*gofeed.Feed, error) {
 	return fp.ParseURL("https://www.vrt.be/vrtnws/nl.rss.articles.xml")
 }
 
+type listPage struct {
+	MaxItems  int
+	NewOffset int
+	Items     []nwsItem
+	ShowMore  bool
+}
+
 func serveNewsList(c echo.Context) error {
 	feed, err := grabFeed()
 	if err != nil {
@@ -34,6 +41,14 @@ func serveNewsList(c echo.Context) error {
 	maxItems := 30
 	if c.QueryParam("max") != "" {
 		maxItems, err = strconv.Atoi(c.QueryParam("max"))
+		if err != nil {
+			return c.String(http.StatusBadRequest, "")
+		}
+	}
+
+	offset := 0
+	if c.QueryParam("o") != "" {
+		offset, err = strconv.Atoi(c.QueryParam("offset"))
 		if err != nil {
 			return c.String(http.StatusBadRequest, "")
 		}
@@ -56,11 +71,24 @@ func serveNewsList(c echo.Context) error {
 		})
 	}
 
+	if offset > len(nwsItems) {
+		offset = len(nwsItems)
+	}
+
+	if offset > 0 {
+		nwsItems = nwsItems[offset:]
+	}
+
 	if len(nwsItems) > maxItems {
 		nwsItems = nwsItems[:maxItems]
 	}
 
-	return tmpl.Execute(c.Response().Writer, struct{ Items []nwsItem }{Items: nwsItems})
+	showMore := true
+	if len(nwsItems) < maxItems {
+		showMore = false
+	}
+
+	return tmpl.Execute(c.Response().Writer, listPage{Items: nwsItems, MaxItems: maxItems, NewOffset: offset + maxItems, ShowMore: showMore})
 }
 
 func serveNewsItem(c echo.Context) error {

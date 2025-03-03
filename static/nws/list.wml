@@ -9,6 +9,12 @@
 </p>
 {{- end }}
 
+{{- .ShowMore }}
+<do type="accept" label="&gt; Show More">
+<go href="/nws/list?max={{ .MaxItems }}&amp;o={{ .NewOffset }}"/>
+</do>
+{{- end }}
+
 <do type="prev" label="Back">
 <prev/>
 </do>
