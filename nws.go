@@ -99,6 +99,14 @@ func serveNewsItem(c echo.Context) error {
 
 	tmpl := template.Must(template.ParseFiles("./static/nws/item.wml"))
 
+	offset := 0
+	if c.QueryParam("o") != "" {
+		offset, err = strconv.Atoi(c.QueryParam("offset"))
+		if err != nil {
+			return c.String(http.StatusBadRequest, "")
+		}
+	}
+
 	id := c.QueryParam("id")
 	var article *gofeed.Item
 
@@ -113,9 +121,21 @@ func serveNewsItem(c echo.Context) error {
 		return c.String(http.StatusNotFound, "")
 	}
 
+	content := fmt.Sprintf("%s<br />%s", article.Title, article.Description)
+
 	item := nwsItem{
 		Title:   trimTitle(article.Title),
-		Content: fmt.Sprintf("%s<br />%s", article.Title, article.Description),
+		Content: content,
+	}
+
+	if len(content) > offset {
+		item.Content = content[offset:]
+	}
+
+	showMore := false
+	if len(content) > 700 {
+		item.Content = fmt.Sprintf("%s...", content[:700])
+		showMore = true
 	}
 
 	if article.Image != nil {
@@ -136,7 +156,12 @@ func serveNewsItem(c echo.Context) error {
 	}
 
 	c.Response().Header().Set("Content-Type", "text/vnd.wap.wml")
-	err = tmpl.Execute(c.Response().Writer, struct{ Item nwsItem }{Item: item})
+	err = tmpl.Execute(c.Response().Writer, struct {
+		Item      nwsItem
+		ShowMore  bool
+		NewOffset int
+		ID        string
+	}{Item: item, ShowMore: showMore, NewOffset: offset + 700, ID: id})
 	if err != nil {
 		log.Println(err)
 		return err
