@@ -12,7 +12,7 @@
 {{ .Item.Content }}
 </p>
 
-{{- .ShowMore }}
+{{- if .ShowMore }}
 <do type="accept" label="&gt; Show More">
 <go href="/nws/item?id={{ .ID }}&amp;o={{ .NewOffset }}"/>
 </do>
