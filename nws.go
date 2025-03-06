@@ -67,7 +67,7 @@ func serveNewsList(c echo.Context) error {
 			continue
 		}
 		nwsItems = append(nwsItems, nwsItem{
-			Title: trimTitle(item.Title),
+			Title: fixHTML(trimTitle(item.Title)),
 			Href:  fmt.Sprintf("/nws/item?id=%s", template.URLQueryEscaper(item.GUID)),
 		})
 	}
@@ -125,8 +125,8 @@ func serveNewsItem(c echo.Context) error {
 	content := fmt.Sprintf("%s<br />%s", article.Title, article.Description)
 
 	item := nwsItem{
-		Title:   trimTitle(article.Title),
-		Content: content,
+		Title:   fixHTML(trimTitle(article.Title)),
+		Content: fixHTML(content),
 	}
 
 	if len(content) > offset {
@@ -175,5 +175,12 @@ func trimTitle(in string) string {
 		return fmt.Sprintf("%s...", in[:40])
 	}
 
+	return in
+}
+
+func fixHTML(in string) string {
+	in = strings.ReplaceAll(in, "&", "&amp;")
+	in = strings.ReplaceAll(in, "<", "&lt;")
+	in = strings.ReplaceAll(in, ">", "&gt;")
 	return in
 }
