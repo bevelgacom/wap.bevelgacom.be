@@ -80,7 +80,7 @@ Note you might have to add a few MIME rules
 | :---------------- | :--: | :---------:  | :--: | :---:|
 | Orange| X | OK*&** | OK | OK
 | Proximus | X | OK** | issues on 5G towers | ~ ***
-| BASE/Telenet | X | GSM bands not compatible with Nokia 7110 | OK  | OK
+| BASE/Telenet | OK# | GSM bands not compatible with Nokia 7110 | OK  | OK
 | Hey (Orange MVNO) | X | OK*&** | OK | OK
 | Mobile Vikings (Proximus) | X | OK** | issues on 5G towers | ~***
 | Digi ****| X | X | X | X
@@ -90,6 +90,7 @@ Note you might have to add a few MIME rules
 `** Needs 3rd party gateway such as Bevelgacom`  
 `*** Proximus shows issues on 2G data, milage may vary`  
 `**** Digi shows total failure to register on a 2G network, has issues with SMS centers being coded as Romania on SIM. And various other hasty deployment issues, would have loved to give them a better score but this is the sad truth, never use them for retro phones`
+`#` CSD to our suprise works! Set to Analog and use a [Dial up](https://bevelgacom.be/products/wap/) number. This is tested 02/2025 as CSD has been phased out everywhere else we have no guarantees of this.
 
 ### The Netherlands
 
@@ -100,7 +101,7 @@ Note you might have to add a few MIME rules
 | KPN | X | Untested | OK | OK
 | Lebara (KPN MVNO) | X | Untested | OK | OK
 
-`*` CSD to our suprise works! Set to Analog and use a [Dial up](https://bevelgacom.be/products/dial-up/) number. This is tested 02/2025 as CSD has been phased out everywhere else we have no guarantees of this.
+`*` CSD to our suprise works! Set to Analog and use a [Dial up](https://bevelgacom.be/products/wap/) number. This is tested 02/2025 as CSD has been phased out everywhere else we have no guarantees of this.
 
 
 ### Austria
