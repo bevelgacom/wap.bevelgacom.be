@@ -156,8 +156,6 @@ func serveNewsItem(c echo.Context) error {
 		item.ImageURL = fmt.Sprintf("/png-convert.wbmp?url=%s", url.QueryEscape("cache:"+cachedLink))
 	}
 
-	fmt.Println("exec template")
-
 	c.Response().Header().Set("Content-Type", "text/vnd.wap.wml")
 	err = tmpl.Execute(c.Response().Writer, struct {
 		Item      nwsItem
