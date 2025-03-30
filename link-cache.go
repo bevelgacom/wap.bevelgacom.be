@@ -14,7 +14,7 @@ func generateID() string {
 	// generate a random 8 character string
 	randRunes := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	id := ""
-	for i := 0; i < 8; i++ {
+	for range 8 {
 		// pick random character
 		id += string(randRunes[rand.Intn(len(randRunes))])
 	}
