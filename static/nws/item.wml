@@ -18,6 +18,12 @@
 </do>
 {{- end }}
 
+{{- if .FullRead }}
+<do type="accept" label="&gt; Read more on W@PFind!">
+<go href="{{ .FullRead }}"/>
+</do>
+{{- end }}
+
 <do type="prev" label="Back">
 <prev/>
 </do>

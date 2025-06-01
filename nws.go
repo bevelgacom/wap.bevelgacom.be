@@ -123,6 +123,7 @@ func serveNewsItem(c echo.Context) error {
 	}
 
 	content := fmt.Sprintf("%s<br />%s", article.Title, article.Description)
+	fullRead := getWAPFindReaderURL(article.Link)
 
 	item := nwsItem{
 		Title:   fixHTML(trimTitle(article.Title)),
@@ -162,7 +163,8 @@ func serveNewsItem(c echo.Context) error {
 		ShowMore  bool
 		NewOffset int
 		ID        string
-	}{Item: item, ShowMore: showMore, NewOffset: offset + 700, ID: id})
+		FullRead  string
+	}{Item: item, ShowMore: showMore, NewOffset: offset + 700, ID: id, FullRead: fullRead})
 	if err != nil {
 		log.Println(err)
 		return err
@@ -183,4 +185,25 @@ func fixHTML(in string) string {
 	in = strings.ReplaceAll(in, "<", "&lt;")
 	in = strings.ReplaceAll(in, ">", "&gt;")
 	return in
+}
+
+func getWAPFindReaderURL(urlStr string) string {
+	// call http://find.bevelgacom.be/l?u=$URL and return the location header
+	resp, err := http.Get("http://find.bevelgacom.be/l?u=" + url.QueryEscape(urlStr))
+	if err != nil {
+		log.Println("Error fetching WAP find reader URL:", err)
+		return ""
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusFound {
+		log.Println("WAP find reader URL not found, status code:", resp.StatusCode)
+		return ""
+	}
+
+	location := resp.Header.Get("Location")
+	if location == "" {
+		log.Println("No Location header found in response")
+		return ""
+	}
+	return location
 }
