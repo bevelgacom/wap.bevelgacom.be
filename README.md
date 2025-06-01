@@ -54,6 +54,7 @@ Emulators of WAP mostly died of old age, they all are a bit crappy but will work
 
 - [Nokia 3330 simulator by Nokia](https://archive.org/details/3330_Simulator)
 - [wApua](https://fsinfo.noone.org/~abe/wApua/Download.html) NOTE: very limited but will render WBMP and basic text, buttons. No input fields sadly.
+- [Openwave SDK 6.22](https://archive.org/details/openwave-sdk-622) Openwave desktop emulator of their WAP browser
 
 ### Validators
 
