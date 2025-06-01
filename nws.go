@@ -190,7 +190,13 @@ func fixHTML(in string) string {
 
 func getWAPFindReaderURL(urlStr string) string {
 	// call http://find.bevelgacom.be/l?u=$URL and return the location header
-	resp, err := http.Get("http://find.bevelgacom.be/l?u=" + url.QueryEscape(urlStr))
+	client := &http.Client{
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			return http.ErrUseLastResponse
+		},
+	}
+
+	resp, err := client.Get("http://find.bevelgacom.be/l?u=" + url.QueryEscape(urlStr))
 	if err != nil {
 		log.Println("Error fetching WAP find reader URL:", err)
 		return ""
