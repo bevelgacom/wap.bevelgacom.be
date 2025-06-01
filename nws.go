@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -197,6 +198,11 @@ func getWAPFindReaderURL(urlStr string) string {
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusFound {
 		log.Println("WAP find reader URL not found, status code:", resp.StatusCode)
+		// log body for debugging
+		body, _ := io.ReadAll(resp.Body)
+		log.Println("Response body:", string(body))
+		// log the url that was requested
+		log.Println("http://find.bevelgacom.be/l?u=" + url.QueryEscape(urlStr))
 		return ""
 	}
 
