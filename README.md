@@ -109,7 +109,7 @@ Note you might have to add a few MIME rules
 
 | Operator          | CSD  | WAP over SMS | GPRS | EDGE |
 | :---------------- | :--: | :---------:  | :--: | :---:|
-| Yesss (A1) | X | ? | OK | ?
+| Yesss (A1) | X | OK | OK | ?
 
 
 ## How to acheive maximum compatibility, aka the Nokia 7110 standard
