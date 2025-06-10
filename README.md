@@ -97,12 +97,13 @@ Note you might have to add a few MIME rules
 
 | Operator          | CSD  | WAP over SMS | GPRS | EDGE |
 | :---------------- | :--: | :---------:  | :--: | :---:|
-| Vodafone | OK* | Untested| OK | OK
+| Vodafone | OK* | GSM bands not compatible with Nokia 7110 | OK | OK
 | Odido | X | X | X | 2G shutdown
-| KPN | X | Untested | OK | OK
-| Lebara (KPN MVNO) | X | Untested | OK | OK
+| KPN | X | OK** | OK | OK
+| Lebara (KPN MVNO) | X | OK** | OK | OK
 
-`*` CSD to our suprise works! Set to Analog and use a [Dial up](https://bevelgacom.be/products/wap/) number. This is tested 02/2025 as CSD has been phased out everywhere else we have no guarantees of this.
+`*` CSD to our suprise works! Set to Analog and use a [Dial up](https://bevelgacom.be/products/wap/) number. This is tested 02/2025 as CSD has been phased out everywhere else we have no guarantees of this. <br/>
+`**` Needs 3rd party gataway such as Bevelgacom.
 
 
 ### Austria
