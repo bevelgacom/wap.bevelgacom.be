@@ -101,9 +101,10 @@ Note you might have to add a few MIME rules
 | Odido | X | X | X | 2G shutdown
 | KPN | X | OK** | OK | OK
 | Lebara (KPN MVNO) | X | OK** | OK | OK
+| Lyca Mobile (KPN MVNO) | X | OK** | OK | OK
 
 `*` CSD to our suprise works! Set to Analog and use a [Dial up](https://bevelgacom.be/products/wap/) number. This is tested 02/2025 as CSD has been phased out everywhere else we have no guarantees of this. <br/>
-`**` Needs 3rd party gataway such as Bevelgacom.
+`**` Needs 3rd party gateway such as Bevelgacom.
 
 
 ### Austria
